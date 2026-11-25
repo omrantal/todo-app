@@ -65,4 +65,19 @@ app.get("/api/test/db", async (req, res) => {
   }
 });
 
+// Cookie test
+app.get("/api/test/cookie", (req, res) => {
+  res.cookie("cookie_test", "cookie-is-working", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 1000
+  });
+
+  res.status(200).json({
+    message: "Test cookie sent successfully"
+  });
+});
+
 module.exports = app;
