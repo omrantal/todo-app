@@ -80,4 +80,30 @@ app.get("/api/test/cookie", (req, res) => {
   });
 });
 
+// Cookie read test
+app.get("/api/test/cookie-read", (req, res) => {
+  req.cookies.cookie_test
+    ? res.status(200).json({
+        message: "Cookie read successfully",
+        cookieValue: req.cookies.cookie_test
+      })
+    : res.status(404).json({
+        message: "Cookie not found"
+      });
+});
+
+// Cookie clear test
+app.get("/api/test/cookie-clear", (req, res) => {
+  res.clearCookie("cookie_test", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/"
+  });
+
+  res.status(200).json({
+    message: "Test cookie cleared successfully"
+  });
+});
+
 module.exports = app;
