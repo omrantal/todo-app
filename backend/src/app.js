@@ -106,4 +106,28 @@ app.get("/api/test/cookie-clear", (req, res) => {
   });
 });
 
+// HTTP methods, body, headers, and cookies test
+app.all("/api/test/echo", (req, res) => {
+  res.status(200).json({
+    method: req.method,
+    body: req.body,
+    timezone: req.get("X-Timezone"),
+    cookie: req.headers.cookie
+  });
+});
+
+// 204 No Content test
+app.delete("/api/test/no-content", (req, res) => {
+  res.status(204).end();
+});
+
+// 401 Unauthorized test
+app.get("/api/test/error", (req, res) => {
+  res.status(401).json({
+    error: {
+      code: "UNAUTHORIZED"
+    }
+  });
+});
+
 module.exports = app;
